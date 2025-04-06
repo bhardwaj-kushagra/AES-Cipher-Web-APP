@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+venv/
+*.enc
+*.aes
+*.zip
+encrypted_files/
