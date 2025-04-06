@@ -1,0 +1,54 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git init
+Initialized empty Git repository in C:/A Developer's Stuff/AES-Cipher-Web-APP/.git/
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git add .
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git commit -m "Initial commit: created base project structure for AES CLI tool"
+[master (root-commit) 91c3a9d] Initial commit: created base project structure for AES CLI tool
+ 5 files changed, 7 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ create mode 100644 cli/aes_cli.py
+ create mode 100644 core/aes_crypto.py
+ create mode 100644 requirements.txt
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git remote add origin https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git
+>> git branch -M main
+>> git push -u origin main
+>>
+To https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git remote add origin https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git
+>>
+error: remote origin already exists.
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git branch -M main
+>>
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git push -u origin main
+>>
+To https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> git push origin main --force
+>>
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (6/6), 529 bytes | 176.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/bhardwaj-kushagra/AES-Cipher-Web-APP.git
+ + 455a149...91c3a9d main -> main (forced update)
+PS C:\A Developer's Stuff\AES-Cipher-Web-APP> 
