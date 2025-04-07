@@ -1,69 +1,30 @@
+# cli/aes_cli.py
+
 import argparse
 import os
-from core import aes_crypto
+from core.aes_crypto import generate_key, encrypt_file, decrypt_file
 
+parser = argparse.ArgumentParser(description="AES Encryption Tool (CLI)")
+parser.add_argument("mode", choices=["encrypt", "decrypt"], help="Mode: encrypt or decrypt")
+parser.add_argument("input", help="Input file path")
+parser.add_argument("--output", required=True, help="Output file path")
+parser.add_argument("--password", help="Password for key derivation")
+parser.add_argument("--keysize", type=int, choices=[16, 32], default=32, help="Key size (16 for AES-128, 32 for AES-256)")
 
-def main():
-    parser = argparse.ArgumentParser(description="AES File Encryptor/Decryptor CLI")
-    subparsers = parser.add_subparsers(dest='command', help='Sub-command help')
+args = parser.parse_args()
 
-    # Encrypt command
-    encrypt_parser = subparsers.add_parser('encrypt', help='Encrypt a file')
-    encrypt_parser.add_argument('input', help='Input file path')
-    encrypt_parser.add_argument('--output', help='Output encrypted file name', default=None)
-    encrypt_parser.add_argument('--password', help='Password to derive key (PBKDF2)')
-    encrypt_parser.add_argument('--keysize', type=int, choices=[16, 32], default=32, help='Key size (16 for AES-128, 32 for AES-256)')
+if not os.path.exists(args.input):
+    print("❌ Error: Input file not found!")
+    exit(1)
 
-    # Decrypt command
-    decrypt_parser = subparsers.add_parser('decrypt', help='Decrypt a file')
-    decrypt_parser.add_argument('input', help='Encrypted file path')
-    decrypt_parser.add_argument('--output', help='Output decrypted file name', default=None)
-    decrypt_parser.add_argument('--password', help='Password used for encryption (PBKDF2)')
-    decrypt_parser.add_argument('--keysize', type=int, choices=[16, 32], default=32, help='Key size used in encryption')
+key, salt = generate_key(args.password, args.keysize)
 
-    args = parser.parse_args()
+if args.mode == "encrypt":
+    key, salt = generate_key(args.password, args.keysize)
+    encrypt_file(args.input, args.output, key=key, iv=None, salt=salt)
+    print(f"✅ File encrypted and saved to {args.output}")
 
-    if args.command == 'encrypt':
-        if not os.path.exists(args.input):
-            print(f"[!] File '{args.input}' does not exist.")
-            return
+elif args.mode == "decrypt":
+    decrypt_file(args.input, args.output, password=args.password, key_size=args.keysize)
+    print(f"✅ File decrypted and saved to {args.output}")
 
-        output_file = args.output or args.input + '.enc'
-
-        # Generate key
-        key, salt = aes_crypto.generate_key(args.password, args.keysize)
-
-        # Encrypt the file
-        aes_crypto.encrypt_file(args.input, output_file, key)
-
-        print(f"[+] File encrypted and saved as '{output_file}'")
-        if args.password:
-            print(f"[!] Remember your password – it's required for decryption.")
-        else:
-            print(f"[!] Store your key safely – it's required for decryption.")
-
-    elif args.command == 'decrypt':
-        if not os.path.exists(args.input):
-            print(f"[!] File '{args.input}' does not exist.")
-            return
-
-        output_file = args.output or args.input.replace('.enc', '.dec')
-
-        if not args.password:
-            print("[!] Password required for decryption (for now).")
-            return
-
-        key, _ = aes_crypto.generate_key(args.password, args.keysize)
-
-        try:
-            aes_crypto.decrypt_file(args.input, output_file, key)
-            print(f"[+] File decrypted and saved as '{output_file}'")
-        except ValueError:
-            print("[!] Decryption failed: Incorrect password or corrupted file.")
-
-    else:
-        parser.print_help()
-
-
-if __name__ == "__main__":
-    main()
